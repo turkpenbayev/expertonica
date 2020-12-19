@@ -14,6 +14,6 @@ Uses gunicorn + nginx + celery + redis.
     ```
 
 
-Test it out at [http://localhost](http://localhost).
-Test check site at [http://localhost/api/site_check?url=example.com](http://localhost/api/site_check?url=example.com)
-Admin at [http://localhost/admin](http://localhost/admin).
+1. Test it out at [http://localhost](http://localhost).
+1. Test check site at [http://localhost/api/site_check?url=example.com](http://localhost/api/site_check?url=example.com)
+1. Admin at [http://localhost/admin](http://localhost/admin).
