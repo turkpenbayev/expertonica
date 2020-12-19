@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block content %}
+<div class="row mb-5">
+    <div class="col-md-12">
+        <h1>Upload sites file format xlsx</h1>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <button type="submit">Upload</button>
+        </form>
+    </div>
+</div>
+<div class="row">
+    <h1>Sessions</h1>
+    <table cellspacing=0 class="table table-bordered table-hover table-inverse table-striped" id='example' width=100%>
+        <thead>
+            <tr>
+                <th>FILENAME</th>
+                <th>SITES COUNTER</th>
+                <th>CHECKED SITES</th>
+                <th>STATUS</th>
+                <th>START DATE</th>
+                <th>END DATE</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tbody>
+                {% for session in sessions %}
+                <tr>
+                    <th><a href="{% url 'session' session.pk %}">{{ session.filename }}</a></th>
+                    <th>{{ session.sites_counter }}</th>
+                    <th>{{ session.checked_count }}</th>
+                    <th>{{ session.get_status_display }}</th>
+                    <th>{{ session.start_date|date:'d.m.Y H:i:s' }}</th>
+                    <th>{{ session.end_date|date:'d.m.Y H:i:s' }}</th>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </tfoot>
+    </table>
+</div>
+{% endblock %}
+
+{% block js %}
+<script>
+    $(document).ready(function () {
+        $('#example').DataTable(
+            {
+                "order": [[4, "desc"]]
+            }
+        );
+    });
+</script>
+{% endblock %}

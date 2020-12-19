@@ -1,0 +1,46 @@
+version: "3.7"
+
+services:
+  web:
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+    command: gunicorn app.wsgi:application -w 3 --bind 0.0.0.0:8000
+    volumes:
+      - ./app/:/usr/src/app/
+      - static_volume:/usr/src/app/staticfiles
+      - media_volume:/usr/src/app/mediafiles
+    expose:
+      - 8000
+    environment:
+      - MODE=dev
+      - HOST_NAME=0.0.0.0
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
+    volumes:
+      - static_volume:/usr/src/app/staticfiles
+      - media_volume:/usr/src/app/mediafiles
+    ports:
+      - 80:80
+    depends_on:
+      - web
+  redis:
+    image: redis:alpine
+  celery:
+    build: 
+      context: ./app
+      dockerfile: Dockerfile
+    command: celery -A app worker -l info
+    volumes:
+      - ./app/:/usr/src/app/
+    environment:
+      - MODE=dev
+      - HOST_NAME=0.0.0.0
+    depends_on:
+      - redis
+volumes:
+  static_volume:
+  media_volume:

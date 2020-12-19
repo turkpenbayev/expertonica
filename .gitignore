@@ -1,0 +1,8 @@
+docker-compose.prod.yml
+.DS_Store
+staticfiles/
+mediafiles/
+init-letsencrypt.sh
+*.pyc
+.vscode/settings.json
+Pipfile*

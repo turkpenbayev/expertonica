@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block content %}
+<div class="row">
+    <h1>Site infos for {{session_name}}</h1>
+    <table cellspacing=0 class="table table-bordered table-hover table-inverse table-striped" id='example' width=100%>
+        <thead>
+            <tr>
+                <th>NAME</th>
+                <th>STATUS</th>
+                <th>IP</th>
+                <th>CHECK TIME</th>
+                <th>RESPONSE TIME</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tbody>
+                {% for site_info in site_infos %}
+                <tr>
+                    <th>{{ site_info.name }}</th>
+                    <th>{{ site_info.status }}</th>
+                    <th>{{ site_info.ip }}</th>
+                    <th>{{ site_info.check_time|date:'d.m.Y H:i:s' }}</th>
+                    <th>{{ site_info.responce_time }}</th>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </tfoot>
+    </table>
+</div>
+{% endblock %}
+
+{% block js %}
+<script>
+    $(document).ready(function () {
+        $('#example').DataTable();
+    });
+</script>
+{% endblock %}
