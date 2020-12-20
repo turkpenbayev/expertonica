@@ -21,5 +21,3 @@ Uses gunicorn + nginx + celery + redis.
 username: admin
 password: 123
 ```
-
-1. working server at [http://91.210.169.153](http://91.210.169.153)
